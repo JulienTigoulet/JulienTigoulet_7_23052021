@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div id="background">
     <NavLogSign/>
     <Login/>
   </div>

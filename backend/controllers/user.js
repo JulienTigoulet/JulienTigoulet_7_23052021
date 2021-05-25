@@ -1,6 +1,7 @@
 const {User} = require('../models');
 //import bcrypt
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 require('dotenv').config();
 const db= {
@@ -9,17 +10,15 @@ const db= {
 //create user
 exports.signup = async(req, res, next) =>{
     try {
-        bcrypt.hash(req.body.password, 10)
-        .then(hash =>{
-              const user =  new User({
-                email: req.body.email,
-                password: hash,
-                name: req.body.name,
-                isAdmin: 0
-            });
-            user.save()
-            return res.json(user)
+       const hash = await  bcrypt.hash(req.body.password, 10)
+        const user =  new User({
+            email: req.body.email,
+            password: hash,
+            name: req.body.name,
+            isAdmin: 0
         });
+        user.save()
+        return res.json(user)
     }catch(err){
         console.log(err)
         return res.status(500).json(err)
@@ -64,3 +63,31 @@ exports.deleteUser = async(req, res) =>{
     }
 };
 
+exports.login = (req, res, next) => {     
+    if ( !req.body.email && !req.body.password ) {
+      return res.status(400).json({message: "champ manquant"})
+    }
+    User.findOne({where: { email: (req.body.email)}
+    })
+      .then((user) => {
+        if (!user) {
+          return res.status(401).json({ error: 'Utilisateur inconnu' });
+        }
+        bcrypt.compare(req.body.password, user.password) 
+          .then((valid) => {
+            if (!valid) {
+              return res.status(401).json({ error: 'Utilisateur ou mot de passe erroné' });
+            }
+            res.status(200).json({
+                token: jwt.sign(
+                { userId: user._id },
+                `${db.keyToken}`,
+                { expiresIn: '24h' }
+                )
+            });
+          });
+      })
+      .catch((err) => {
+        res.status(500).json({ error: err });
+      });
+  };

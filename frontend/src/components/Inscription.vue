@@ -32,16 +32,13 @@
           required
         ></b-form-input>
       </b-form-group>
-
       <b-button class="m-2" type="submit" variant="primary">S'enregister</b-button>
     </b-form>
-    <b-card class="mt-3" header="Form Data Result">
-      <pre class="m-0">{{ form }}</pre>
-    </b-card>
   </div>
 </template>
 
 <script>
+// import axios from "axios";
   export default {
     data() {
       return {

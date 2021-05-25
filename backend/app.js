@@ -4,8 +4,9 @@ const postRoute = require('./routes/post');
 const commentRoute = require('./routes/comment')
 const app = express();
 app.use(express.json())
-app.use('/', userRoute);
-app.use('/',postRoute);
-app.use('/',commentRoute);
+
+app.use('/api/auth', userRoute);
+app.use('/api/posts', postRoute);
+app.use('/api/comments', commentRoute);
 
 module.exports = app;
