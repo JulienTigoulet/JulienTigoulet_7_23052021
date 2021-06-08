@@ -2,14 +2,16 @@ const {Comment, Post, User} = require('../models');
 
 //create Comment
 exports.createComment = async (req, res) =>{
+
     const { postUuid, body, userUuid } = req.body
     try{
         const post = await Post.findOne({ where : { uuid: postUuid } })
         const user = await User.findOne({ where: { uuid: userUuid } })
         const comment = await Comment.create({
             body,
+            imageUrl : req.body && req.file ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}`: null,
             postId : post.id,
-            userId : user.id
+            userId : user.name
         })
         return res.json(comment)
     } catch(err){
@@ -33,6 +35,10 @@ exports.findOneComment = async(req, res) =>{
     try{
         const comment = await Comment.findOne({
             where: { uuid },
+            include: [
+                'user',
+                'comments'
+            ]
         })
         return res.json(comment);
     } catch(err){
@@ -57,7 +63,7 @@ exports.modifyComment = async(req, res) =>{
     const uuid = req.params.uuid
     const { body } = req.body
     try{
-        const comment = await Comment.findOne({ where: { uuid } })
+        const comment = await Comment.findOne({ where: { uuid } } )
         comment.body = body
         await comment.save()
         return res.json(comment);

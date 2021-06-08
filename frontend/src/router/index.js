@@ -24,9 +24,9 @@ const routes = [
     component: () => import('../views/Inscription.vue')
   },
   {
-    path:'/LandingPage',
-    name:'LandingPage',
-    component: () => import('../views/LandingPage.vue')
+    path:'/Wall',
+    name:'Wall',
+    component: () => import('../views/Wall.vue')
   },
 ]
 

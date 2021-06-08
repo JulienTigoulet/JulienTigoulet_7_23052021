@@ -1,11 +1,14 @@
+
 const {Post, User} = require('../models');
 
 //create post
 exports.createPost = async (req, res) =>{
-    const { userUuid, body } = req.body
+    const { userUuid, body, image } = req.body
     try{
         const user = await User.findOne({ where : { uuid: userUuid } })
-        const post = await Post.create({ body, userId : user.id })
+        const post = await Post.create({ body,
+            userId : user.id,
+            imageUrl:`${req.protocol}://${req.get('host')}/images/${req.file.filename}`})
         return res.json(post)
     } catch(err){
         console.log(err)
@@ -29,6 +32,7 @@ exports.findOnePost = async(req, res) =>{
         const post = await Post.findOne({
             where: { uuid },
             include:'comments'
+
         })
         return res.json(post);
     } catch(err){

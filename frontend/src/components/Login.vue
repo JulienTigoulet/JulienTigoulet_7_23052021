@@ -1,27 +1,32 @@
 <template>
   <div>
-    <b-form @submit="onSubmit" v-if="show">
-      <b-form-group
-        id="input-group-1"
-        label="Email :"
-        label-for="input-1"
-      >
+    <b-form @submit.prevent="onSubmit">
+      <b-form-group label="Email :">
         <b-form-input
-          id="input-1"
-          v-model="form.email"
+          autocomplete="email"
+          v-model="email"
           type="email"
           placeholder="Email"
           required
         ></b-form-input>
+        <span class="text-danger" v-if="!$v.email.required && $v.email.$dirty">
+          Un Email est requis
+        </span>
+        <span class="text-danger" v-if="!$v.email.email && $v.email.$dirty">
+          Un Email valide est requis
+        </span>
       </b-form-group>
-      <b-form-group id="input-group-3" label="Mot de passe :" label-for="input-3">
+      <b-form-group label="Mot de passe :">
         <b-form-input
-          id="input-3"
-          v-model="form.password"
+          v-model="password"
+          type="password"
           placeholder="Mot de passe"
-          :options="password"
+          autocomplete="current-password"
           required
         ></b-form-input>
+        <span class="text-danger" v-if="!$v.password.required && $v.password.$dirty">
+        Le Mot de passe est requis 
+        </span>
       </b-form-group>
       <b-button class="m-2" type="submit" variant="primary">Connexion</b-button>
     </b-form>
@@ -29,23 +34,51 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        form: {
-          email: '',
-          password:'',
-        },
-        show: true
-      }
+import axios from "axios";
+import { required, email } from 'vuelidate/lib/validators';
+export default {
+  data:() =>({
+    email:'',
+    password:'',
+  }),
+  validations : {
+    email : {
+      required,
+      email
     },
-    methods: {
-      onSubmit(event) {
-        event.preventDefault()
-        alert(JSON.stringify(this.form))
-      },
+    password : {
+      required
+    }
+  },
+  methods: {
+     onSubmit(){
+      this.$v.$touch();
+      if(!this.$v.$invalid){
+        axios.post('http://localhost:8080/api/auth/login',{
+          email : this.email,
+          password : this.password
+        })
+        .then(res => {
+          const token = res.data.token
+          const userUuid = res.data.uuid
+          const name = res.data.name
+          localStorage.setItem('token', token)
+          localStorage.setItem('userUuid', userUuid)
+          localStorage.setItem('name', name)
+          this.$router.push('/wall')
+        })
+        .catch(err =>{
+        localStorage.removeItem('token')
+        localStorage.removeItem('userUuid')
+        localStorage.removeItem('name')
+        console.log(err);
+        })
+
+      }
     }
   }
+};
+
 </script>
 <style scoped>
 input{

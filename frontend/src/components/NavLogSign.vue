@@ -10,7 +10,6 @@
     <b-nav class="navigation">
         <b-nav-item v-b-tooltip.hover.bottom title="Si vous n'avez pas de compte"  active class="m-2"><router-link to="/inscription">Inscription</router-link></b-nav-item>
         <b-nav-item v-b-tooltip.hover.bottom title="Pour vous connecter" active class="m-2"><router-link to="/">Connexion</router-link></b-nav-item>
-        <router-link to="/LandingPage"><b-icon-exclamation-triangle-fill></b-icon-exclamation-triangle-fill></router-link>
     </b-nav>
     </div>
   </b-jumbotron>

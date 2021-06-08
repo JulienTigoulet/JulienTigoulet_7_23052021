@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       models.Comment.belongsTo(models.Post, {foreignKey: 'postId', as:'post'})
     }
     toJSON(){
-      return {...this.get(), id: undefined, userId:undefined}
+      return {...this.get(), id: undefined}
     }
   };
   Comment.init({

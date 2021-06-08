@@ -20,6 +20,10 @@ module.exports = {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
+      imageUrl : {
+        type : DataTypes.STRING,
+        allowNull : true
+      },
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE
