@@ -1,14 +1,14 @@
 
 const {Post, User} = require('../models');
-
+const fs = require('fs')
 //create post
 exports.createPost = async (req, res) =>{
-    const { userUuid, body, image } = req.body
+    const { userUuid, body} = req.body
     try{
         const user = await User.findOne({ where : { uuid: userUuid } })
         const post = await Post.create({ body,
             userId : user.id,
-            imageUrl:`${req.protocol}://${req.get('host')}/images/${req.file.filename}`})
+            imageUrl: req.body && req.file ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}`: null})
         return res.json(post)
     } catch(err){
         console.log(err)
@@ -45,7 +45,14 @@ exports.deletePost = async(req, res) =>{
     const uuid = req.params.uuid
     try{
         const post = await Post.findOne({ where: { uuid } })
-        await post.destroy()
+        if(post.imageUrl !== null){
+            const filename = post.imageUrl.split('/images/')[1];
+            fs.unlink(`images/${filename}`, () =>{
+                post.destroy()
+            })
+        }
+           await post.destroy()
+        
         return res.json({message:'publication supprimé'});
     } catch(err){
         console.log(err)

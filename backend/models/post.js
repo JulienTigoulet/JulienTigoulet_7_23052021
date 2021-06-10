@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       models.Post.belongsTo(models.User, {foreignKey: 'userId', as:'user'})
-      models.Post.hasMany(models.Comment, {foreignKey:'postId', as:'comments'});
+      models.Post.hasMany(models.Comment, {foreignKey:'postId', as:'comments', onDelete: 'cascade', hooks:true});
     }
     toJSON(){
       return {...this.get(), id: undefined, userId:undefined}

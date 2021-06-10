@@ -16,13 +16,19 @@
           Supprimer
         </b-dropdown-item-button>
       </b-dropdown>
+      {{createdAt}}
       </div>
-      <p>{{body}}</p>
-      <img :src="imageUrl" alt="">
+      <div class="bodyPost">
+        <p>{{body}}</p>
+        <div>
+          <b-img id="img" center :src="imageUrl"></b-img>
+        </div>
+
+      </div>
     </div>
-      <b-button v-b-toggle="`${uuid}`" variant="primary" class="btn-answer">Répondre</b-button>
-      <b-button v-b-toggle="`2${uuid}`" variant="primary" v-on:click="showComments" class="btn-comments"> Voir les commentaires</b-button>
-      <b-collapse :id="`${uuid}`" class="mt-2 collapse-card">
+      <b-button v-b-toggle="`${uuid}`" variant="success" reset class="btn-answer">Répondre</b-button>
+      <b-button v-b-toggle="`2${uuid}`" v-if="numberOfComments > 0" variant="primary" v-on:click="showComments" class="btn-comments"> Commentaires ({{numberOfComments}})</b-button>
+      <b-collapse :id="`${uuid}`" class="mt-2 collapse-card" v-model="collapse">
           <b-card>
               <form v-on:submit.prevent="userComment" class="createComment">
                   <div class="form-group">
@@ -34,7 +40,7 @@
               </form>
           </b-card>
       </b-collapse>
-      <b-collapse :id="`2${uuid}`" class="mt-2">
+      <b-collapse :id="`2${uuid}`" class="mt-2 showComments">
         <Comment
         v-for="comment in comments"
         :key="comment.uuid"
@@ -56,6 +62,8 @@ export default {
     return {
       comments:"",
       comment:"",
+      collapse: false,
+      numberOfComments:""
     }
   },
  props:{
@@ -74,24 +82,29 @@ export default {
     imageUrl: {
     type: String
     },
+    createdAt: {
+      type: String
+    }
+ },
+ mounted() {
+   this.showComments()
  },
   methods:{
       deletePost(){
       const postUuid = this.uuid
-      console.log((postUuid));
       axios.delete(`http://localhost:8080/api/posts/${postUuid}`, {
         headers : {
           'content-type': 'application/json',
           Authorization : 'Bearer ' + localStorage.getItem('token')
         }
         })
-      .then(res =>{
-        console.log(res);
-          console.log( 'post delete');
-      })
+        .then(()=>{
+          this.$parent.allPosts()
+        })
       .catch(err => {
       console.log(err);
       })
+      
   },
     userComment(){
       const userUuid = localStorage.getItem('userUuid')
@@ -105,7 +118,10 @@ export default {
       }
       })
       .then(res =>{
-        console.log(res); 
+        console.log(res)
+        this.comment = ""
+        this.collapse = false
+        this.showComments()
       })
       .catch(err =>{
         console.log(err)
@@ -121,7 +137,7 @@ export default {
       })
       .then(res =>{
         this.comments=res.data.comments
-        console.log(this.comments);
+        this.numberOfComments = this.comments.length
       })
       .catch(err =>{
       console.log(err)
@@ -166,5 +182,12 @@ export default {
 .name{
   font-weight: bold;
   font-size: 18px;
+}
+.bodyPost{
+align-items: center;
+}
+#img {
+ max-width: 300px;
+ max-height: 300px;
 }
 </style>

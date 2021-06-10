@@ -2,21 +2,22 @@
     <div id="landingpage">
         <Header/>
         <div id="content">
-        <div id="navigation"><NavSide/></div>
-            <CreatePost/>
-            <Allposts/>
+          <div id="navigation">
+            <NavSide/>
+          </div>
+          <Allposts/>
         </div>
     </div>
 </template>
 <script>
 import NavSide from '@/components/NavSide.vue'
-import CreatePost from '@/components/CreatePost.vue'
+
 import Header from '@/components/Header.vue'
 import Allposts from '@/components/AllPost.vue'
 export default {
   name: 'LandingPage',
   components: {
-    Header, NavSide, CreatePost, Allposts
+    Header, NavSide, Allposts
   },
 
 }
@@ -25,7 +26,7 @@ export default {
 #content{
   display: flex;
   flex-direction: column;
-  margin:50px
+  align-items: center;
 }
 #navigation{
   padding: 10px;

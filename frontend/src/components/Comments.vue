@@ -6,7 +6,7 @@
         <template #button-content>
           <b-icon icon="three-dots"></b-icon>
         </template>
-          <b-dropdown-item-button primary="danger" v-on:click="modifyComment">
+          <b-dropdown-item-button primary="danger">
           <b-icon icon="vector-pen" aria-hidden="true"></b-icon>
           Modifier
         </b-dropdown-item-button>
@@ -37,7 +37,6 @@ export default {
     }
  },
   methods: {
-    modifyComment(){},
     deleteComment(){
       axios.delete(`http://localhost:8080/api/comments/${this.commentUuid}`,{
         headers : {
@@ -45,9 +44,8 @@ export default {
         Authorization : 'Bearer ' + localStorage.getItem('token')
       }
       })
-      .then(res =>{
-        console.log(res);
-          console.log( 'post delete');
+      .then(() =>{
+        this.$parent.$parent.showComments()
       })
       .catch(err => {
       console.log(err);

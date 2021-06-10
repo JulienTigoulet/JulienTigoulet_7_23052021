@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      models.User.hasMany(models.Post, {foreignKey:'userId', as:'posts'});
+      models.User.hasMany(models.Post, {foreignKey:'userId', as:'posts', onDelete: 'cascade', hooks:true});
       models.User.hasMany(models.Comment);
     }
     toJSON(){
@@ -34,6 +34,7 @@ module.exports = (sequelize, DataTypes) => {
     email: {
       type: DataTypes.STRING,
       allowNull : false,
+      unique : true,
       validate : {
         notNull : {msg:"L'utilisateur doit avoir un email"},
         notEmpty : {msg:"L'email ne doit pas être vide"},

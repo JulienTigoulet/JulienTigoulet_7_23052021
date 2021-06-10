@@ -27,8 +27,8 @@
           placeholder="Mot de passe"
           autocomplete="current-password"
         ></b-form-input>
-        <span class="text-danger" v-if="!$v.password.required && $v.password.$dirty">
-          Le Mot de passe est requis 
+        <span class="text-danger" v-if="!$v.password.required | !$v.password.minLength && $v.password.$dirty">
+          Le Mot de passe doit<br> faire au minimum 6 caractères
         </span>
 
       </b-form-group>
@@ -53,7 +53,7 @@
 
 <script>
 import axios from "axios";
-import { required, email } from 'vuelidate/lib/validators'
+import { required, email, minLength } from 'vuelidate/lib/validators'
 export default {
   data:() =>({
     email:'',
@@ -67,6 +67,7 @@ validations : {
   },
   password : {
     required,
+    minLength: minLength(6)
   },
   name : {
     required
@@ -81,8 +82,16 @@ methods: {
         password : this.password,
         name : this.name
       })
-      console.log('compte validé');
-      this.$router.push('/')
+      .then(() => {
+        console.log('compte validé');
+        localStorage.removeItem('token')
+        localStorage.removeItem('userUuid')
+        localStorage.removeItem('name')
+        this.$router.push('/')
+      })
+      .catch(err =>{
+      console.log(err);
+      })
     }
   }
 }

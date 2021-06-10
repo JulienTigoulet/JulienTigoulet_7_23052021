@@ -10,10 +10,10 @@
           required
         ></b-form-input>
         <span class="text-danger" v-if="!$v.email.required && $v.email.$dirty">
-          Un Email est requis
+          Votre Email est requis
         </span>
         <span class="text-danger" v-if="!$v.email.email && $v.email.$dirty">
-          Un Email valide est requis
+          Votre Email valide est requis
         </span>
       </b-form-group>
       <b-form-group label="Mot de passe :">
@@ -25,7 +25,7 @@
           required
         ></b-form-input>
         <span class="text-danger" v-if="!$v.password.required && $v.password.$dirty">
-        Le Mot de passe est requis 
+        Le Mot de passe n'est pas bon 
         </span>
       </b-form-group>
       <b-button class="m-2" type="submit" variant="primary">Connexion</b-button>

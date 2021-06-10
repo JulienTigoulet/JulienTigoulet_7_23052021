@@ -1,16 +1,16 @@
 <template>
 <div>
   <b-button v-b-toggle.collapse variant="primary" class="btn-post">Créer une publication<b-icon class="icon" icon="pencil-fill"></b-icon></b-button>
-  <b-collapse id="collapse" class="mt-2">
-        <form v-on:submit.prevent="userPost" class="createPost" method="post" enctype="multipart/form-data">
+  <b-collapse id="collapse" class="mt-2" v-model="collapse">
+        <form v-on:submit.prevent="userPost" ref="file-input" class="createPost" method="post" enctype="multipart/form-data">
           <div class="form-group">
             <b-form-textarea name="content" type="text" v-model="body" required id="post"></b-form-textarea>
           </div>
-          <div class="form-group">
-            <b-button variant="success" type="sumbit" class="btn-publish">Publier</b-button>
+          <div class="form-group" ref="reset">
+            <input type="file" name="image" id="image" ref="image" v-on:change="changeImg()"/>
           </div>
           <div class="form-group">
-            <input type="file" name="image" id="image" ref="image" v-on:change="changeImg()"/>
+            <b-button variant="success" type="sumbit" class="btn-publish">Publier</b-button>
           </div>
         </form>
   </b-collapse>
@@ -23,14 +23,14 @@ import axios from 'axios'
     data() {
       return {
         body: '',
-        image:''
-      }
+        image:'',
+        collapse:false,
+      } 
     },
   methods:{
     changeImg(){
       this.image = this.$refs.image.files[0];
-      console.log(this.image);
-},
+    },
     userPost(){
       const formData = new FormData();
       if (this.image !== null) {
@@ -40,7 +40,6 @@ import axios from 'axios'
       } else {
         formData.append('body', this.body);
         formData.append('userUuid', localStorage.getItem('userUuid'));
-        formData.append('image', this.image);
       }
       const token =localStorage.getItem('token')
       axios.post('http://localhost:8080/api/posts/',formData, {
@@ -51,6 +50,10 @@ import axios from 'axios'
       })
       .then(res =>{
         console.log(res);
+        this.$parent.allPosts()
+        this.body = "",
+        this.$refs['file-input'].reset()
+        this.collapse= false
       })
       .catch(err =>{
       console.log(err)
@@ -62,9 +65,6 @@ import axios from 'axios'
 <style scoped>
 #post{
   resize: none;
-}
-.createPost{
-  width: 50%;
 }
 .btn-post{
   display: flex;

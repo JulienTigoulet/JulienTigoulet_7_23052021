@@ -9,7 +9,6 @@ exports.createComment = async (req, res) =>{
         const user = await User.findOne({ where: { uuid: userUuid } })
         const comment = await Comment.create({
             body,
-            imageUrl : req.body && req.file ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}`: null,
             postId : post.id,
             userId : user.name
         })
@@ -52,7 +51,7 @@ exports.deleteComment = async(req, res) =>{
     try{
         const comment = await Comment.findOne({ where: { uuid } })
         await comment.destroy()
-        return res.json({message:'publication supprimé'});
+        return res.json({message:'comment supprimé'});
     } catch(err){
         console.log(err)
         return res.status(500).json(err)

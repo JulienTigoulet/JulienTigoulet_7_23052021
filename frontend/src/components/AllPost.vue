@@ -1,21 +1,28 @@
 <template>
-<div class="allpost">
-    <Post
-    v-for="post in posts"
-    :key="post.id"
-    :body="post.body"
-    :name="post.user.name"
-    :uuid="post.uuid"
-    :imageUrl ="post.imageUrl">
-    </Post>
-</div>
+    <div class="container">   
+        <CreatePost/>
+        <div class="allposts">
+            <Post
+            v-for="post in posts"
+            :key="post.id"
+            :body="post.body"
+            :name="post.user.name"
+            :uuid="post.uuid"
+            :imageUrl ="post.imageUrl"
+            :createdAt ="post.createdAt">
+            </Post>
+        </div>
+    </div>
+
+
 </template>
 <script>
 import Post from '@/components/Post.vue'
+import CreatePost from '@/components/CreatePost.vue'
 import axios from 'axios'
 export default {
     components:{
-        Post
+        Post, CreatePost
     },
     data() {
         return {
@@ -24,27 +31,37 @@ export default {
             comments:""
         }
     },
-    created() {
-        axios.get('http://localhost:8080/api/posts/',{
-            headers : {
-            'Content-Type': 'application/json',
-            Authorization : 'Bearer ' + localStorage.getItem('token')
-            }
-        })
-        .then(res =>{
-            this.posts=res.data
-        })
-        .catch(err=> {
-            console.log(err);
-        })
+    mounted() {
+        this.allPosts()
     },
+    methods :{
+        allPosts() {
+            axios.get('http://localhost:8080/api/posts/',{
+                headers : {
+                'Content-Type': 'application/json',
+                Authorization : 'Bearer ' + localStorage.getItem('token')
+                }
+            })
+            .then(res =>{
+                this.posts=res.data
+            })
+            .catch(err=> {
+                console.log(err);
+            })
+        },
+    }
 }
 </script>
 <style scoped>
-.allpost{
-    width: 50%;
+.allposts{
+    width: 45%;
     display: flex;
     flex-direction: column-reverse;
-    margin-left:50px
+    margin-top:50px;
+}
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 </style>
