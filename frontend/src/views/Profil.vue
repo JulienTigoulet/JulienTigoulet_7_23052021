@@ -4,12 +4,23 @@
     <NavSide/>
   </div>
   <div class="container mt-5">
-  <Profil
-  :name="user.name"
-  :email ="user.email"> </Profil>
+    <div v-if="isAdmin == false">
+      <Profil
+        :name="user.name"
+        :email ="user.email"
+        :uuid ="user.uuid">
+      </Profil>
+    </div>
+    <div v-if="isAdmin">
+      <Profil
+        v-for="user in users"
+        :key="user.id"
+        :name="user.name"
+        :uuid ="user.uuid"
+        :email ="user.email"> 
+      </Profil>
+    </div>
   </div>
-
-
 </div>
 </template>
 <script>
@@ -21,16 +32,30 @@ export default {
     Profil, NavSide
   },
   data:() =>({
-      user : ""
+      user: "",
+      users: "",
+      isAdmin : false
 
   }),
-  created() {
-      const uuid = localStorage.getItem('userUuid');
-      axios.get(`http://localhost:8080/api/auth/${uuid}`,)
-      .then(res =>{
-          console.log(res);
-          this.user = res.data
-      })  
+  mounted(){
+    this.allUsers()
+  },
+  methods : {
+    allUsers() {
+        const uuid = localStorage.getItem('userUuid');
+        axios.get(`http://localhost:8080/api/auth/${uuid}`,)
+        .then(res =>{
+            this.user = res.data
+          if (this.user.isAdmin == true) {
+            axios.get('http://localhost:8080/api/auth/')
+            .then(res=>{
+              this.users = res.data
+              this.isAdmin = true
+              console.log(this.users);
+            })
+          }
+        })
+    }
   }
 }
 

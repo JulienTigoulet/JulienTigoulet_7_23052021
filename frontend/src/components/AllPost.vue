@@ -8,13 +8,10 @@
             :body="post.body"
             :name="post.user.name"
             :uuid="post.uuid"
-            :imageUrl ="post.imageUrl"
-            :createdAt ="post.createdAt">
+            :imageUrl ="post.imageUrl">
             </Post>
         </div>
     </div>
-
-
 </template>
 <script>
 import Post from '@/components/Post.vue'

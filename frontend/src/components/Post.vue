@@ -3,7 +3,7 @@
     <div class="form-group post">
       <div class="header-post">
       <p class="name">{{name}}:</p>
-      <b-dropdown no-caret size="lg"  variant="link" toggle-class="text-decoration-none">
+      <b-dropdown no-caret size="lg" v-if="validated" variant="link" toggle-class="text-decoration-none">
         <template #button-content>
           <b-icon icon="three-dots"></b-icon>
         </template>
@@ -16,7 +16,6 @@
           Supprimer
         </b-dropdown-item-button>
       </b-dropdown>
-      {{createdAt}}
       </div>
       <div class="bodyPost">
         <p>{{body}}</p>
@@ -63,7 +62,8 @@ export default {
       comments:"",
       comment:"",
       collapse: false,
-      numberOfComments:""
+      numberOfComments:"",
+      validated : false
     }
   },
  props:{
@@ -82,30 +82,42 @@ export default {
     imageUrl: {
     type: String
     },
-    createdAt: {
-      type: String
-    }
  },
  mounted() {
    this.showComments()
+   this.btnModificationDeleteValidator()
  },
   methods:{
-      deletePost(){
-      const postUuid = this.uuid
-      axios.delete(`http://localhost:8080/api/posts/${postUuid}`, {
-        headers : {
-          'content-type': 'application/json',
-          Authorization : 'Bearer ' + localStorage.getItem('token')
+    btnModificationDeleteValidator(){
+      const userUuid = localStorage.getItem('userUuid')
+      axios.get(`http://localhost:8080/api/auth/${userUuid}`)
+      .then(res=>{
+        if(res.data.isAdmin == true){
+          this.validated = true
         }
-        })
-        .then(()=>{
-          this.$parent.allPosts()
-        })
-      .catch(err => {
-      console.log(err);
+        if (res.data.name === this.name) {
+          this.validated = true
+        }
       })
-      
-  },
+      .catch(err =>{
+        console.log(err);
+      })
+    },
+    deletePost(){
+    const postUuid = this.uuid
+    axios.delete(`http://localhost:8080/api/posts/${postUuid}`, {
+      headers : {
+        'content-type': 'application/json',
+        Authorization : 'Bearer ' + localStorage.getItem('token')
+      }
+      })
+      .then(()=>{
+        this.$parent.allPosts()
+      })
+    .catch(err => {
+    console.log(err);
+    })   
+    },
     userComment(){
       const userUuid = localStorage.getItem('userUuid')
       const body = this.comment
@@ -126,7 +138,7 @@ export default {
       .catch(err =>{
         console.log(err)
       })
-    },
+      },
     showComments(){
       const postUuid = this.uuid
       axios.get(`http://localhost:8080/api/posts/${postUuid}`, {

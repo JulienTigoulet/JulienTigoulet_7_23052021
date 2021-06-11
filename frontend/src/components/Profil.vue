@@ -4,7 +4,6 @@
         <b-card-text>{{name}}</b-card-text>
         <b-card-text>{{email}}</b-card-text>
         <div class="modification">
-            <b-button>Modifier</b-button>
             <b-button v-on:click="deleteUser" variant="danger" >Supprimer</b-button>
         </div>    
       </b-card>
@@ -13,32 +12,54 @@
 <script>
 import axios from 'axios'
 export default {
-     props:{
-    email: {
-        type: String,
-        default: ""
-    },
-    name:{
-        type:String,
-        default:""
-    },
-    password:{
-        type:String,
-        default:""
-    }
-
+    props:{
+        email: {
+            type: String,
+            default: ""
+        },
+        name:{
+            type:String,
+            default:""
+        },
+        password:{
+            type:String,
+            default:""
+        },
+        body:{
+            type:String,
+            default:""
+        },
+        imageUrl:{
+            type:String,
+            default:""
+        },
+        uuid:{
+            type:String,
+        }
  },
  methods : {
      deleteUser(){
-        try {
-            const uuid = localStorage.getItem('userUuid')
-            axios.delete(`http://localhost:8080/api/auth/${uuid}`)
-            console.log('compte supprimé');
-            localStorage.clear()
-            this.$router.push('/') 
-        } catch (error) {
-            console.log(error);
-        }
+        const userUuid = localStorage.getItem('userUuid');
+        axios.get(`http://localhost:8080/api/auth/${userUuid}`,)
+        .then(res=>{
+            const user = res.data
+            if (user.isAdmin == true) {
+                const uuid = this.uuid
+                console.log(uuid);
+                axios.delete(`http://localhost:8080/api/auth/${uuid}`)
+                this.$parent.allUsers()
+                console.log('Suppression de administrateur');
+            } else {
+                const uuid = this.uuid
+                axios.delete(`http://localhost:8080/api/auth/${uuid}`)
+                localStorage.clear()
+                this.$router.push('/')
+                this.$parent.allUsers()
+            }
+        })
+        .catch(err =>{
+            console.log(err);
+        })
      }
  }
 }

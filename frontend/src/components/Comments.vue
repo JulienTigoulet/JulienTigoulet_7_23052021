@@ -2,7 +2,7 @@
   <div class="comment">
       <div class="header-comment">
       <p class="name">{{name}} : {{body}}</p>
-      <b-dropdown no-caret size="lg"  variant="link" toggle-class="text-decoration-none">
+      <b-dropdown no-caret size="lg" v-if="validated" variant="link" toggle-class="text-decoration-none">
         <template #button-content>
           <b-icon icon="three-dots"></b-icon>
         </template>
@@ -22,6 +22,11 @@
 <script>
 import axios from 'axios'
 export default {
+  data(){
+    return {
+      validated : false
+    }
+  },
  props:{
     body: {
         type: String,
@@ -36,7 +41,25 @@ export default {
       default:""
     }
  },
+ mounted(){
+   this.btnModificationDeleteValidator()
+ },
   methods: {
+        btnModificationDeleteValidator(){
+      const userUuid = localStorage.getItem('userUuid')
+      axios.get(`http://localhost:8080/api/auth/${userUuid}`)
+      .then(res=>{
+        if(res.data.isAdmin == true){
+          this.validated = true
+        }
+        if (res.data.name === this.name) {
+          this.validated = true
+        }
+      })
+      .catch(err =>{
+        console.log(err);
+      })
+    },
     deleteComment(){
       axios.delete(`http://localhost:8080/api/comments/${this.commentUuid}`,{
         headers : {
