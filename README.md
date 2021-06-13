@@ -7,6 +7,9 @@ Pour pouvoir le faire fonctionner il vous faut télécharger le repositorie ci j
 
 Créer un dossier .env dans le fichier backend pour setup une clef de token :
   * KEY_TOKEN=  <-- votre clef de token éviter les suites logique ainsi qu'une clef trop courte -->
+
+
+
  Pour mieux comprends le fonctionnement des key : https://www.npmjs.com/package/jsonwebtoken
 
 
