@@ -2,11 +2,11 @@
   <div class="comment">
       <div class="header-comment">
         <div class="content">
-          <p class="name">{{name}}</p>
+          <p class="name">{{name}} a répondu : </p>
           <div class="body">
             <p v-if="modification">{{body}}</p>
-            <div v-else>
-              <input type="text" v-model="newBody" >
+            <div v-else id="textModification">
+              <textarea id="commentModification" name="newBody" v-model="newBody" cols="30" rows="3"></textarea>
               <b-button variant="success" v-on:click="sendModifyComment">Modifier</b-button>
             </div>
           </div>
@@ -100,6 +100,9 @@ export default {
       })
       .then(res=>{
         console.log(res);
+        if(res.body == null){
+          this.deleteComment()
+        }
         this.$parent.$parent.showComments()
         this.modification = true
       })
@@ -111,6 +114,14 @@ export default {
   }
 </script>
 <style scoped>
+#textModification{
+  display: flex;
+  flex-direction: column;
+}
+#commentModification{
+  resize: none;
+  border : 1px solid rgb(206, 174, 174)
+}
 .comment{
   border: 1px solid #007bff;
   border-radius: 5px;
@@ -123,6 +134,7 @@ export default {
   justify-content: space-between;
 }
 .name{
-  font-size: 18px;
+  font-size: 15px;
+  font-weight: bold;
 }
 </style>

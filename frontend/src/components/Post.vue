@@ -17,25 +17,24 @@
         </b-dropdown-item-button>
       </b-dropdown>
       </div>
-      <div class="bodyPost">
-        <div class="content">
-          <div class="body" v-if="modification">
-            <p>{{body}}</p>
+      <div class="bodyPost container">
+        <div class="content row">
+          <div class="body col" v-if="modification">
+            <p class="wrap">{{body}}</p>
             <div class="img">
               <b-img id="img" center :src="imageUrl"></b-img>
-
             </div>
           </div>
-            <div v-else  enctype="multipart/form-data">>
-              <input type="text" v-model="newBody" >
-              <div class="container" id="containerImg" v-if="this.imageUrl != null">
-                <img :src="imageUrl" center id="img">
-                <b-button v-b-tooltip.hover.bottom title="Supprimer votre image" v-on:click="deleteImg" id="deleteImg">
-                  <b-icon  icon="trash-fill" variant="danger" aria-hidden="true"></b-icon>
-                </b-button>
-              </div>
-              <b-button variant="success" v-on:click="sendModifyPost">Modifier</b-button>
+          <div v-else id="modificationContentPost" class="col">
+            <textarea id="textModification" name="newBody" v-model="newBody" cols="30" rows="5" required></textarea>
+            <div class="container" id="containerImg" v-if="this.imageUrl != null">
+              <img :src="imageUrl" center id="img">
+              <b-button v-b-tooltip.hover.bottom title="Supprimer votre image" v-on:click="deleteImg" id="deleteImg">
+                <b-icon  icon="trash-fill" variant="danger" aria-hidden="true"></b-icon>
+              </b-button>
             </div>
+            <b-button variant="success" v-on:click="sendModifyPost">Modifier</b-button>
+          </div>
         </div>
       </div>
     </div>
@@ -107,8 +106,11 @@ export default {
   methods:{
     deleteImg(){
       const userUuid = localStorage.getItem('userUuid')
-      const body = this.newBody
+      let body = this.newBody
       const imageUrl = null
+      if(!body){
+        this.deletePost()
+      }
       const formPost = {userUuid,body,imageUrl}
       axios.put(`http://localhost:8080/api/posts/${this.postUuid}`,formPost,{
         headers : {
@@ -118,11 +120,9 @@ export default {
       })
       .then(()=>{
         this.$parent.allPosts()
+        this.image = null
         this.modification = true
       })
-    },
-    modifyPost(){
-
     },
     sendModifyPost(){
       const userUuid = localStorage.getItem('userUuid')
@@ -136,8 +136,7 @@ export default {
         Authorization : 'Bearer ' + localStorage.getItem('token')
       }
       })
-      .then((res)=>{
-        console.log(res);
+      .then(()=>{
         this.$parent.allPosts()
         this.modification = true
       })
@@ -147,7 +146,7 @@ export default {
     },
     showModifyPost(){
       this.modification = false
-      console.log('work')
+      this.collapse= false
     },
     btnModificationDeleteValidator(){
       const userUuid = localStorage.getItem('userUuid')
@@ -165,6 +164,7 @@ export default {
       })
     },
     deletePost(){
+    this.collapse= false
     axios.delete(`http://localhost:8080/api/posts/${this.postUuid}`, {
       headers : {
         'content-type': 'application/json',
@@ -173,6 +173,7 @@ export default {
       })
       .then(()=>{
         this.$parent.allPosts()
+        this.image = null
       })
     .catch(err => {
     console.log(err);
@@ -229,8 +230,14 @@ export default {
 .card{
   border: none;
 }
-#post{
+#modificationContentPost{
+  display: flex;
+  flex-direction: column;
+}
+
+#post,#textModification{
   resize: none;
+  border : 1px solid lightgray
 }
 .btn-send{
   margin-top:5px;
