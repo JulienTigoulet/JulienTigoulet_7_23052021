@@ -62,9 +62,15 @@ exports.deletePost = async(req, res) =>{
 //modify one post
 exports.modifyPost = async(req, res) =>{
     const uuid = req.params.uuid
-    const { body } = req.body
+    const { body,imageUrl} = req.body
     try{
         const post = await Post.findOne({ where: { uuid } })
+        if(imageUrl == null){
+            const filename = post.imageUrl.split('/images/')[1];
+            fs.unlink(`images/${filename}`, () =>{
+            })
+            post.imageUrl = null
+        }
         post.body = body
         await post.save()
         return res.json(post);

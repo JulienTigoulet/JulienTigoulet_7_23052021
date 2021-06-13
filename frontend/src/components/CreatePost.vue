@@ -41,11 +41,10 @@ import axios from 'axios'
         formData.append('body', this.body);
         formData.append('userUuid', localStorage.getItem('userUuid'));
       }
-      const token =localStorage.getItem('token')
       axios.post('http://localhost:8080/api/posts/',formData, {
       headers : {
         'Content-Type': 'application/json',
-        Authorization : 'Bearer ' + token
+        Authorization : 'Bearer ' + localStorage.getItem('token')
       }
       })
       .then(res =>{

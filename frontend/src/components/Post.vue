@@ -7,8 +7,8 @@
         <template #button-content>
           <b-icon icon="three-dots"></b-icon>
         </template>
-          <b-dropdown-item-button primary="danger">
-          <b-icon icon="vector-pen" aria-hidden="true" ></b-icon>
+          <b-dropdown-item-button primary="danger" v-on:click="showModifyPost">
+          <b-icon icon="vector-pen" aria-hidden="true"></b-icon>
           Modifier
         </b-dropdown-item-button>
         <b-dropdown-item-button variant="danger" v-on:click="deletePost">
@@ -18,16 +18,30 @@
       </b-dropdown>
       </div>
       <div class="bodyPost">
-        <p>{{body}}</p>
-        <div>
-          <b-img id="img" center :src="imageUrl"></b-img>
-        </div>
+        <div class="content">
+          <div class="body" v-if="modification">
+            <p>{{body}}</p>
+            <div class="img">
+              <b-img id="img" center :src="imageUrl"></b-img>
 
+            </div>
+          </div>
+            <div v-else  enctype="multipart/form-data">>
+              <input type="text" v-model="newBody" >
+              <div class="container" id="containerImg" v-if="this.imageUrl != null">
+                <img :src="imageUrl" center id="img">
+                <b-button v-b-tooltip.hover.bottom title="Supprimer votre image" v-on:click="deleteImg" id="deleteImg">
+                  <b-icon  icon="trash-fill" variant="danger" aria-hidden="true"></b-icon>
+                </b-button>
+              </div>
+              <b-button variant="success" v-on:click="sendModifyPost">Modifier</b-button>
+            </div>
+        </div>
       </div>
     </div>
-      <b-button v-b-toggle="`${uuid}`" variant="success" reset class="btn-answer">Répondre</b-button>
-      <b-button v-b-toggle="`2${uuid}`" v-if="numberOfComments > 0" variant="primary" v-on:click="showComments" class="btn-comments"> Commentaires ({{numberOfComments}})</b-button>
-      <b-collapse :id="`${uuid}`" class="mt-2 collapse-card" v-model="collapse">
+      <b-button v-b-toggle="`${postUuid}`" variant="success" reset class="btn-answer">Répondre</b-button>
+      <b-button v-b-toggle="`2${postUuid}`" v-if="numberOfComments > 0" variant="primary" v-on:click="showComments" class="btn-comments"> Commentaires ({{numberOfComments}})</b-button>
+      <b-collapse :id="`${postUuid}`" class="mt-2 collapse-card" v-model="collapse">
           <b-card>
               <form v-on:submit.prevent="userComment" class="createComment">
                   <div class="form-group">
@@ -39,7 +53,7 @@
               </form>
           </b-card>
       </b-collapse>
-      <b-collapse :id="`2${uuid}`" class="mt-2 showComments">
+      <b-collapse :id="`2${postUuid}`" class="mt-2 showComments">
         <Comment
         v-for="comment in comments"
         :key="comment.uuid"
@@ -63,7 +77,10 @@ export default {
       comment:"",
       collapse: false,
       numberOfComments:"",
-      validated : false
+      validated : false,
+      modification : true,
+      newBody : this.body,
+      image : ""
     }
   },
  props:{
@@ -75,7 +92,7 @@ export default {
         type:String,
         default:""
     },
-    uuid:{
+    postUuid:{
       type:String,
       default:""
     },
@@ -88,6 +105,50 @@ export default {
    this.btnModificationDeleteValidator()
  },
   methods:{
+    deleteImg(){
+      const userUuid = localStorage.getItem('userUuid')
+      const body = this.newBody
+      const imageUrl = null
+      const formPost = {userUuid,body,imageUrl}
+      axios.put(`http://localhost:8080/api/posts/${this.postUuid}`,formPost,{
+        headers : {
+        'content-type': 'application/json',
+        Authorization : 'Bearer ' + localStorage.getItem('token')
+      }
+      })
+      .then(()=>{
+        this.$parent.allPosts()
+        this.modification = true
+      })
+    },
+    modifyPost(){
+
+    },
+    sendModifyPost(){
+      const userUuid = localStorage.getItem('userUuid')
+      const body = this.newBody
+      const imageUrl = this.image
+      const formPost = {body,userUuid,imageUrl}
+      console.log(formPost);
+      axios.put(`http://localhost:8080/api/posts/${this.postUuid}`,formPost,{
+        headers : {
+        'content-type': 'application/json',
+        Authorization : 'Bearer ' + localStorage.getItem('token')
+      }
+      })
+      .then((res)=>{
+        console.log(res);
+        this.$parent.allPosts()
+        this.modification = true
+      })
+      .catch(err =>{
+        console.log(err);
+      })
+    },
+    showModifyPost(){
+      this.modification = false
+      console.log('work')
+    },
     btnModificationDeleteValidator(){
       const userUuid = localStorage.getItem('userUuid')
       axios.get(`http://localhost:8080/api/auth/${userUuid}`)
@@ -104,8 +165,7 @@ export default {
       })
     },
     deletePost(){
-    const postUuid = this.uuid
-    axios.delete(`http://localhost:8080/api/posts/${postUuid}`, {
+    axios.delete(`http://localhost:8080/api/posts/${this.postUuid}`, {
       headers : {
         'content-type': 'application/json',
         Authorization : 'Bearer ' + localStorage.getItem('token')
@@ -121,7 +181,7 @@ export default {
     userComment(){
       const userUuid = localStorage.getItem('userUuid')
       const body = this.comment
-      const postUuid = this.uuid
+      const postUuid = this.postUuid
       const formComment = {body,userUuid,postUuid}
       axios.post('http://localhost:8080/api/comments/',formComment, {
       headers : {
@@ -140,8 +200,7 @@ export default {
       })
       },
     showComments(){
-      const postUuid = this.uuid
-      axios.get(`http://localhost:8080/api/posts/${postUuid}`, {
+      axios.get(`http://localhost:8080/api/posts/${this.postUuid}`, {
         headers : {
         'Content-Type': 'application/json',
         Authorization : 'Bearer ' + localStorage.getItem('token')
@@ -202,4 +261,9 @@ align-items: center;
  max-width: 300px;
  max-height: 300px;
 }
+#deleteImg{
+background-color:white;
+
+}
+
 </style>

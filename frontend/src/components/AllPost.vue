@@ -7,7 +7,7 @@
             :key="post.id"
             :body="post.body"
             :name="post.user.name"
-            :uuid="post.uuid"
+            :postUuid="post.uuid"
             :imageUrl ="post.imageUrl">
             </Post>
         </div>
