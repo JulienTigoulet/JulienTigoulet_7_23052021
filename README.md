@@ -53,4 +53,4 @@ Pour mieux comprendre le fonctionnement de ce fichier : https://sequelize.org/ma
  *     "vuelidate": "^0.7.6"
 
 
-Une fois les deux serveur lancé vous aurez la possibilité de rejoindre l'application web :   - Local:   http://localhost:8081/
+Une fois les deux serveurs lancés vous pouvez rejoindre l'application web :   - Local:   http://localhost:8081/
