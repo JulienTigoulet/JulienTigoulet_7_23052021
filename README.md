@@ -12,7 +12,7 @@ Créer un dossier .env dans le fichier backend en appliquant selon vos identifia
 # backend
  Il faut ouvrir le fichier backend avec un logiciel de code, et dans la console lancer : 
   * npm install  (installer tout les packages)
-  * nodemon serve (demarre le serveur côté backend)
+  * nodemon serve (Permet de démarrer le serveur côté Backend)
 
 # Package backend :
  *    "bcrypt": "^5.0.1",
@@ -29,3 +29,18 @@ Créer un dossier .env dans le fichier backend en appliquant selon vos identifia
  *    "sequelize": "^6.6.2"
 
 # frontend
+ Il faut ouvrir le fichier backend avec un logiciel de code, et dans la console lancer : 
+  * npm install  (installer tout les packages)
+  * npm run serve (Permet de démarrer le serveur côté frontend)
+
+# Package Frontend : 
+ *     "axios": "^0.21.1",
+ *     "bootstrap": "^5.0.1",
+ *     "bootstrap-vue": "^2.21.2",
+ *     "core-js": "^3.6.5",
+ *     "vue": "^2.6.12",
+ *     "vue-router": "^3.2.0",
+ *     "vuelidate": "^0.7.6"
+
+
+Une fois les deux serveur lancé vous aurez la possibilité de rejoindre l'application web :   - Local:   http://localhost:8081/
