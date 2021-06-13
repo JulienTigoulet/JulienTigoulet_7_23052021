@@ -11,7 +11,6 @@
 </template>
 <script>
 import NavSide from '@/components/NavSide.vue'
-
 import Header from '@/components/Header.vue'
 import Allposts from '@/components/AllPost.vue'
 export default {
@@ -33,5 +32,12 @@ export default {
   position: fixed;
   left:75%;
   top: 25%;
+}
+@media screen and (max-width: 425px) {
+#navigation{
+  position: relative;
+  left: 0px;
+  margin-top:39px;
+}
 }
 </style>

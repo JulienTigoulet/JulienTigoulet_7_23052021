@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="allProfil">
   <div id="navigation">
     <NavSide/>
   </div>
@@ -61,11 +61,14 @@ export default {
 
 </script>
 <style scoped>
+.allProfil{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 #navigation{
-  padding: 10px;
-  position: fixed;
-  left:75%;
-  top: 25%;
+  margin-top:30px;
+  max-width: 300px;
 }
 .container{
   width: 500px;

@@ -272,5 +272,11 @@ align-items: center;
 background-color:white;
 
 }
+@media screen and (max-width: 1000px) {
 
+#img {
+ max-width: 200px;
+ max-height: 200px;
+}
+}
 </style>

@@ -61,4 +61,14 @@ export default {
     flex-direction: column;
     align-items: center;
 }
+@media screen and (max-width: 425px) {
+.allposts{
+    width: 100%;
+}
+}
+@media screen and (max-width: 100px) {
+.allposts{
+    width: 100%;
+}
+}
 </style>

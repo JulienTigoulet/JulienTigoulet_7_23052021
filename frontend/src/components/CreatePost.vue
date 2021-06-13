@@ -77,4 +77,9 @@ import axios from 'axios'
   margin-top:5px;
   margin-left: 5px;
 }
+@media screen and (max-width: 425px) {
+.btn-post{
+  margin-top:5px;
+}
+}
 </style>
