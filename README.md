@@ -6,14 +6,15 @@ Pour pouvoir le faire fonctionner il vous faut télécharger le repositorie ci j
 
 
 Créer un dossier .env dans le fichier backend pour setup une clef de token :
-  * KEY_TOKEN=
+  * KEY_TOKEN=  <-- votre clef de token éviter les suites logique ainsi qu'une clef trop courte -->
+ Pour mieux comprends le fonctionnement des key : https://www.npmjs.com/package/jsonwebtoken
 
 
 Dans le fichier config veuillez ouvrir config.JSON et parametré votre connexion à votre serveur Mysql : 
  *     "password": <-- votre mots de passe de votre base de donnée Mysql -->
  *     "database": <-- le nom de votre base de donnée Mysql -->
  *     "host": "localhost"
-
+Pour mieux comprendre le fonctionnement de ce fichier : https://sequelize.org/master/class/lib/sequelize.js~Sequelize.html#instance-constructor-constructor
 
 # backend
  Il faut ouvrir le fichier backend avec un logiciel de code, et dans la console lancer : 
