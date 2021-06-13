@@ -4,6 +4,8 @@ Cette intranet à était construit en utilisant pour le frontend : " VueJs" et p
 Pour pouvoir le faire fonctionner il vous faut télécharger le repositorie ci joint,
 Créer un dossier .env dans le fichier backend pour setup une clef de token :
   * KEY_TOKEN=
+
+
 Dans le fichier config veuillez ouvrir config.JSON et parametré votre connexion à votre serveur Mysql : 
  *     "password": <-- votre mots de passe de votre base de donnée Mysql -->
  *     "database": <-- le nom de votre base de donnée Mysql -->
