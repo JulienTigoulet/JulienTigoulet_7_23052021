@@ -55,6 +55,14 @@ exports.deleteUser = async(req, res) =>{
     const uuid = req.params.uuid
     try{
         const user = await User.findOne({ where: { uuid } })
+        // if(user.posts != null){
+        //   posts.forEach(imageUrl => {
+        //     const filename = post.imageUrl.split('/images/')[1];
+        //     fs.unlink(`images/${filename}`, () =>{
+        //       console.log('wtf')
+        //     })          
+        //   });
+        // }
         await user.destroy()
         return res.json({message:'utilisateur supprimé'});
     } catch(err){
@@ -64,11 +72,9 @@ exports.deleteUser = async(req, res) =>{
 };
 
 exports.login = (req, res, next) => {  
-      
     if ( !req.body.email && !req.body.password ) {
       return res.status(400).json({message: "champ manquant"})
   }
-
     User.findOne({
       where: { email: (req.body.email),}
     })

@@ -35,7 +35,7 @@ export default {
         },
         uuid:{
             type:String,
-        }
+        },
  },
  methods : {
      deleteUser(){
@@ -45,7 +45,6 @@ export default {
             const user = res.data
             if (user.isAdmin == true) {
                 const uuid = this.uuid
-                console.log(uuid);
                 axios.delete(`http://localhost:8080/api/auth/${uuid}`)
                 this.$parent.allUsers()
                 console.log('Suppression de administrateur');
@@ -54,7 +53,6 @@ export default {
                 axios.delete(`http://localhost:8080/api/auth/${uuid}`)
                 localStorage.clear()
                 this.$router.push('/')
-                this.$parent.allUsers()
             }
         })
         .catch(err =>{

@@ -32,7 +32,6 @@ exports.findOnePost = async(req, res) =>{
         const post = await Post.findOne({
             where: { uuid },
             include:'comments'
-
         })
         return res.json(post);
     } catch(err){

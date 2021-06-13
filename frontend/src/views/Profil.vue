@@ -51,7 +51,6 @@ export default {
             .then(res=>{
               this.users = res.data
               this.isAdmin = true
-              console.log(this.users);
             })
           }
         })
