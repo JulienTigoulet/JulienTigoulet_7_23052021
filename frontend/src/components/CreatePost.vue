@@ -4,10 +4,10 @@
   <b-collapse id="collapse" class="mt-2" v-model="collapse">
         <form v-on:submit.prevent="userPost" ref="file-input" class="createPost" method="post" enctype="multipart/form-data">
           <div class="form-group">
-            <b-form-textarea rows="3" name="content" type="text" v-model="body" id="post"></b-form-textarea>
+            <b-form-textarea aria-label="Texte" rows="3" name="content" type="text" v-model="body" id="post"></b-form-textarea>
           </div>
           <div class="form-group" ref="reset">
-            <input type="file" name="image" id="image" ref="image" v-on:change="changeImg()"/>
+            <input aria-label="bouton envoyé image" type="file" name="image" id="image" ref="image" v-on:change="changeImg()"/>
           </div>
           <div class="form-group">
             <b-button variant="success" type="sumbit" class="btn-publish">Publier</b-button>

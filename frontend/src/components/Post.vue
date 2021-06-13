@@ -22,13 +22,13 @@
           <div class="body col" v-if="modification">
             <p class="wrap">{{body}}</p>
             <div class="img">
-              <b-img id="img" center :src="imageUrl"></b-img>
+              <b-img id="img" center :src="imageUrl" alt=""></b-img>
             </div>
           </div>
           <div v-else id="modificationContentPost" class="col">
             <textarea id="textModification" name="newBody" v-model="newBody" cols="30" rows="5" required></textarea>
             <div class="container" id="containerImg" v-if="this.imageUrl != null">
-              <img :src="imageUrl" center id="img">
+              <img :src="imageUrl" center id="img" alt="imageUrl">
               <b-button v-b-tooltip.hover.bottom title="Supprimer votre image" v-on:click="deleteImg" id="deleteImg">
                 <b-icon  icon="trash-fill" variant="danger" aria-hidden="true"></b-icon>
               </b-button>

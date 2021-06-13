@@ -3,6 +3,7 @@
     <b-form @submit.prevent="onSubmit">
       <b-form-group label="Email :">
         <b-form-input
+          aria-label="email"
           autocomplete="email"
           v-model="email"
           type="email"
@@ -18,6 +19,7 @@
       </b-form-group>
       <b-form-group label="Mot de passe :">
         <b-form-input
+          aria-label="mot de passe"
           v-model="password"
           type="password"
           placeholder="Mot de passe"

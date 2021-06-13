@@ -4,6 +4,7 @@
 
       <b-form-group  label="Email :" >       
         <b-form-input
+          aria-label="email"
           id="email"
           v-model="email"
           type="email"
@@ -20,6 +21,7 @@
 
       <b-form-group label="Mot de passe :">
         <b-form-input
+          aria-label="Mot de passe"
           id="password"
           class="form-control"
           type="password"
@@ -35,6 +37,7 @@
 
       <b-form-group label="Votre Nom et Prénom :">
         <b-form-input
+          aria-label="nom et prénom"
           id="name"
           class="form-control"
           v-model="name"

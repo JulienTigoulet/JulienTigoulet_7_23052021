@@ -1,6 +1,6 @@
 
 <template>
-<div id="background">
+<header id="background">
   <b-jumbotron>
     <template #header> Intranet <img alt="logo groupomania" src="../assets/icon-left-font-monochrome-black.png"> </template>
     <template #lead>
@@ -13,7 +13,7 @@
     </b-nav>
     </div>
   </b-jumbotron>
-</div>
+</header>
 </template>
 <script>
 export default {
