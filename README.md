@@ -1,7 +1,10 @@
 # JulienTigoulet_7_23052021
 ## Intranet Groupomania
 Cette intranet à était construit en utilisant pour le frontend : " VueJs" et pour le backEnd: "nodeJs", il utilise une base de donnée Mysql
-Pour pouvoir le faire fonctionner il vous faut télécharger le repositorie ci joint,
+Pour pouvoir le faire fonctionner il vous faut télécharger le repositorie ci joint.
+
+
+
 Créer un dossier .env dans le fichier backend pour setup une clef de token :
   * KEY_TOKEN=
 
