@@ -2,6 +2,7 @@ const {User} = require('../models');
 //import bcrypt
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const fs = require('fs');
 
 require('dotenv').config();
 const db= {
@@ -54,15 +55,16 @@ exports.findOneUser =  async(req, res) =>{
 exports.deleteUser = async(req, res) =>{
     const uuid = req.params.uuid
     try{
-        const user = await User.findOne({ where: { uuid } })
-        // if(user.posts != null){
-        //   posts.forEach(imageUrl => {
-        //     const filename = post.imageUrl.split('/images/')[1];
-        //     fs.unlink(`images/${filename}`, () =>{
-        //       console.log('wtf')
-        //     })          
-        //   });
-        // }
+        const user = await User.findOne({ where: { uuid },  include:'posts'})
+        const posts = user.posts
+        posts.forEach(post => {
+          if(post.imageUrl !== null){
+            const filename = post.imageUrl.split('/images/')[1];
+            fs.unlink(`images/${filename}`, () =>{
+            })
+            post.imageUrl = null
+          }
+        });
         await user.destroy()
         return res.json({message:'utilisateur supprimé'});
     } catch(err){

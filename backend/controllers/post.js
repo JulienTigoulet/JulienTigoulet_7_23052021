@@ -1,6 +1,6 @@
 
 const {Post, User} = require('../models');
-const fs = require('fs')
+const fs = require('fs');
 //create post
 exports.createPost = async (req, res) =>{
     const { userUuid, body} = req.body
@@ -61,20 +61,20 @@ exports.deletePost = async(req, res) =>{
 //modify one post
 exports.modifyPost = async(req, res) =>{
     const uuid = req.params.uuid
-    const { body,imageUrl} = req.body
+    const {body} = req.body
     try{
-        const post = await Post.findOne({ where: { uuid } })
-        if(imageUrl == null){
+        const post = await Post.findOne({ where: { uuid }})
+        post.body = body
+        if(post.imageUrl){
             const filename = post.imageUrl.split('/images/')[1];
             fs.unlink(`images/${filename}`, () =>{
             })
-            post.imageUrl = null
         }
-        post.body = body
+        post.imageUrl = req.body && req.file ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}`:null
         await post.save()
         return res.json(post);
     } catch(err){
         console.log(err)
-        return res.status(500).json(err)
+        return res.status(0).json(err)
     }
 };

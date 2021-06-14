@@ -26,6 +26,9 @@
             </div>
           </div>
           <div v-else id="modificationContentPost" class="col">
+<div class="form-group" ref="reset">
+  <input aria-label="bouton envoyé image" type="file" name="image" id="image" ref="image" v-on:change="changeImg()"/>
+</div>
             <textarea id="textModification" name="newBody" v-model="newBody" cols="30" rows="5" required></textarea>
             <div class="container" id="containerImg" v-if="this.imageUrl != null">
               <img :src="imageUrl" center id="img" alt="imageUrl">
@@ -104,6 +107,9 @@ export default {
    this.btnModificationDeleteValidator()
  },
   methods:{
+    changeImg(){
+      this.image = this.$refs.image.files[0];
+    },
     deleteImg(){
       const userUuid = localStorage.getItem('userUuid')
       let body = this.newBody
@@ -125,18 +131,26 @@ export default {
       })
     },
     sendModifyPost(){
-      const userUuid = localStorage.getItem('userUuid')
-      const body = this.newBody
-      const imageUrl = this.image
-      const formPost = {body,userUuid,imageUrl}
-      console.log(formPost);
-      axios.put(`http://localhost:8080/api/posts/${this.postUuid}`,formPost,{
+      const formData = new FormData();
+      if(this.image !== null){
+        formData.append('image', this.image);
+        formData.append('body', this.newBody);
+        formData.append('userUuid', localStorage.getItem('userUuid'));
+      }
+      else{
+        formData.append('image', null)
+        formData.append('body', this.newBody)
+        formData.append('userUuid', localStorage.getItem('userUuid'))
+      }
+      console.log(formData);
+      axios.put(`http://localhost:8080/api/posts/${this.postUuid}`,formData,{
         headers : {
         'content-type': 'application/json',
         Authorization : 'Bearer ' + localStorage.getItem('token')
       }
       })
-      .then(()=>{
+      .then(res=>{
+        console.log(res);
         this.$parent.allPosts()
         this.modification = true
       })
