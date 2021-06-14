@@ -138,6 +138,8 @@ export default {
         formData.append('userUuid', localStorage.getItem('userUuid'));
       }
       else{
+         this.image = this.imageUrl 
+        formData.append('image', this.image)
         formData.append('body', this.newBody)
         formData.append('userUuid', localStorage.getItem('userUuid'))
       }
