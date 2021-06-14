@@ -46,9 +46,8 @@ export default {
             if (user.isAdmin == true) {
                 const uuid = this.uuid
                 axios.delete(`http://localhost:8080/api/auth/${uuid}`)
-                .then(res =>{
+                .then(() =>{
                     this.$parent.allUsers()
-                    console.log(res);
                     console.log('Suppression de administrateur');
                 })
                 .catch(err =>{

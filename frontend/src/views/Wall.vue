@@ -18,7 +18,6 @@ export default {
   components: {
     Header, NavSide, Allposts
   },
-
 }
 </script>
 <style scoped>

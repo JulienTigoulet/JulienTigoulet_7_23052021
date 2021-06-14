@@ -28,7 +28,7 @@ export default {
   methods: {
     disconnect(){
       localStorage.clear()
-      return console.log('storage clear');
+      console.log('storage clear');
     }
 }
 }

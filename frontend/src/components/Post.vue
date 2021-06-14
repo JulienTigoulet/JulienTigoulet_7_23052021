@@ -143,15 +143,13 @@ export default {
         formData.append('body', this.newBody)
         formData.append('userUuid', localStorage.getItem('userUuid'))
       }
-      console.log(formData);
       axios.put(`http://localhost:8080/api/posts/${this.postUuid}`,formData,{
         headers : {
         'content-type': 'application/json',
         Authorization : 'Bearer ' + localStorage.getItem('token')
       }
       })
-      .then(res=>{
-        console.log(res);
+      .then(()=>{
         this.$parent.allPosts()
         this.modification = true
       })

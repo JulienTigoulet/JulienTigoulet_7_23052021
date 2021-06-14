@@ -47,8 +47,7 @@ import axios from 'axios'
         Authorization : 'Bearer ' + localStorage.getItem('token')
       }
       })
-      .then(res =>{
-        console.log(res);
+      .then(() =>{
         this.$parent.allPosts()
         this.body = "",
         this.$refs['file-input'].reset()
