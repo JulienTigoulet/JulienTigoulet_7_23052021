@@ -13,7 +13,7 @@ Créer un dossier .env dans le fichier backend pour setup une clef de token :
  Pour mieux comprends le fonctionnement des key : https://www.npmjs.com/package/jsonwebtoken
 
 
-Dans le fichier config veuillez ouvrir config.JSON et parametré votre connexion à votre serveur Mysql : 
+Dans le dossier config veuillez ouvrir config.JSON et parametré votre connexion à votre serveur Mysql : 
  *     "password": <-- votre mots de passe de votre base de donnée Mysql -->
  *     "database": <-- le nom de votre base de donnée Mysql -->
  *     "host": "localhost"
@@ -22,6 +22,14 @@ Pour mieux comprendre le fonctionnement de ce fichier : https://sequelize.org/ma
 # backend
  Il faut ouvrir le fichier backend avec un logiciel de code, et dans la console lancer : 
   * npm install  (installer tout les packages)
+
+Puis faire un :
+ * sequelize db:create
+ * sequelize db:migrate
+
+Cela permet de créer la database de développement et de migrer les models sequelize dedans
+
+
   * nodemon serve (Permet de démarrer le serveur côté Backend)
 
 # Package backend :
