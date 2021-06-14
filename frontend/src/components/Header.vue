@@ -1,12 +1,11 @@
 <template>
-<div>
-  <b-jumbotron class="bandeau">
-    <template #header id="header"> Intranet <img id="logo" alt="logo groupomania" src="../assets/icon-left-font-monochrome-black.png"> 
-    </template>
-    <img id="wave" src="../img/wave.svg" alt="fond vague dessinée">
-  </b-jumbotron>
-
-</div>
+  <div>
+    <b-jumbotron class="bandeau">
+      <template #header id="header"> Intranet <img id="logo" alt="logo groupomania" src="../assets/icon-left-font-monochrome-black.png"> 
+      </template>
+      <img id="wave" src="../img/wave.svg" alt="fond vague dessinée">
+    </b-jumbotron>
+  </div>
 </template>
 <script>
 
@@ -37,7 +36,6 @@ export default {
 }
 }
 @media screen and (max-width: 425px) {
-
 .display-3{
 top : 0px;
 left :120px;

@@ -1,7 +1,6 @@
 <template>
   <div>
     <b-form @submit.prevent="onSubmit">
-
       <b-form-group  label="Email :" >       
         <b-form-input
           aria-label="email"
@@ -18,7 +17,6 @@
           Un Email valide est requis
         </span>
       </b-form-group>
-
       <b-form-group label="Mot de passe :">
         <b-form-input
           aria-label="Mot de passe"
@@ -32,9 +30,7 @@
         <span class="text-danger" v-if="!$v.password.required | !$v.password.minLength && $v.password.$dirty">
           Le Mot de passe doit<br> faire au minimum 6 caractères
         </span>
-
       </b-form-group>
-
       <b-form-group label="Votre Nom et Prénom :">
         <b-form-input
           aria-label="nom et prénom"
@@ -46,14 +42,11 @@
         <span class="text-danger" v-if="!$v.name.required && $v.name.$dirty">
           Les Nom et prénoms sont requis
         </span>
-        
       </b-form-group>
-
       <b-button class="m-2" type="submit" variant="primary">S'enregister</b-button>
     </b-form>
   </div>
 </template>
-
 <script>
 import axios from "axios";
 import { required, email, minLength } from 'vuelidate/lib/validators'

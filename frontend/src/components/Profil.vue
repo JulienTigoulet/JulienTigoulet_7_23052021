@@ -1,12 +1,12 @@
 <template>
     <div class="userAccompt">
-    <b-card variant="info" header="Mon profil" align="center">
-        <b-card-text>{{name}}</b-card-text>
-        <b-card-text>{{email}}</b-card-text>
-        <div class="modification">
-            <b-button v-on:click="deleteUser" variant="danger" >Supprimer</b-button>
-        </div>    
-      </b-card>
+        <b-card variant="info" header="Mon profil" align="center">
+            <b-card-text>{{name}}</b-card-text>
+            <b-card-text>{{email}}</b-card-text>
+            <div class="modification">
+                <b-button v-on:click="deleteUser" variant="danger" >Supprimer</b-button>
+            </div>    
+        </b-card>
     </div>
 </template>
 <script>

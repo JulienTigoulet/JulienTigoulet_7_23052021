@@ -34,7 +34,6 @@
     </b-form>
   </div>
 </template>
-
 <script>
 import axios from "axios";
 import { required, email } from 'vuelidate/lib/validators';
@@ -80,7 +79,6 @@ export default {
     }
   }
 };
-
 </script>
 <style scoped>
 input{

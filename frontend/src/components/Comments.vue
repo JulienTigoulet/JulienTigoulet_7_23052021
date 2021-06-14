@@ -11,19 +11,19 @@
             </div>
           </div>
         </div>
-      <b-dropdown no-caret size="lg" v-if="validated" variant="link" toggle-class="text-decoration-none">
-        <template #button-content>
-          <b-icon icon="three-dots"></b-icon>
-        </template>
-          <b-dropdown-item-button primary="danger" v-on:click="showModifyComment">
-          <b-icon icon="vector-pen" aria-hidden="true"></b-icon>
-          Modifier
-        </b-dropdown-item-button>
-        <b-dropdown-item-button variant="danger" v-on:click="deleteComment">
-          <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
-          Supprimer
-        </b-dropdown-item-button>
-      </b-dropdown>
+        <b-dropdown no-caret size="lg" v-if="validated" variant="link" toggle-class="text-decoration-none">
+          <template #button-content>
+            <b-icon icon="three-dots"></b-icon>
+          </template>
+            <b-dropdown-item-button primary="danger" v-on:click="showModifyComment">
+            <b-icon icon="vector-pen" aria-hidden="true"></b-icon>
+            Modifier
+          </b-dropdown-item-button>
+          <b-dropdown-item-button variant="danger" v-on:click="deleteComment">
+            <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
+            Supprimer
+          </b-dropdown-item-button>
+        </b-dropdown>
       </div>
   </div>
 </template>

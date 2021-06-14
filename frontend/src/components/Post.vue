@@ -26,9 +26,9 @@
             </div>
           </div>
           <div v-else id="modificationContentPost" class="col">
-<div class="form-group" ref="reset">
-  <input aria-label="bouton envoyé image" type="file" name="image" id="image" ref="image" v-on:change="changeImg()"/>
-</div>
+          <div class="form-group" ref="reset">
+            <input aria-label="bouton envoyé image" type="file" name="image" id="image" ref="image" v-on:change="changeImg()"/>
+          </div>
             <textarea id="textModification" name="newBody" v-model="newBody" cols="30" rows="5" required></textarea>
             <div class="container" id="containerImg" v-if="this.imageUrl != null">
               <img :src="imageUrl" center id="img" alt="imageUrl">
@@ -138,7 +138,6 @@ export default {
         formData.append('userUuid', localStorage.getItem('userUuid'));
       }
       else{
-        formData.append('image', null)
         formData.append('body', this.newBody)
         formData.append('userUuid', localStorage.getItem('userUuid'))
       }
@@ -178,20 +177,20 @@ export default {
       })
     },
     deletePost(){
-    this.collapse= false
-    axios.delete(`http://localhost:8080/api/posts/${this.postUuid}`, {
-      headers : {
-        'content-type': 'application/json',
-        Authorization : 'Bearer ' + localStorage.getItem('token')
-      }
-      })
-      .then(()=>{
-        this.$parent.allPosts()
-        this.image = null
-      })
-    .catch(err => {
-    console.log(err);
-    })   
+      this.collapse= false
+      axios.delete(`http://localhost:8080/api/posts/${this.postUuid}`, {
+        headers : {
+          'content-type': 'application/json',
+          Authorization : 'Bearer ' + localStorage.getItem('token')
+        }
+        })
+        .then(()=>{
+          this.$parent.allPosts()
+          this.image = null
+        })
+      .catch(err => {
+      console.log(err);
+      })   
     },
     userComment(){
       const userUuid = localStorage.getItem('userUuid')
@@ -248,7 +247,6 @@ export default {
   display: flex;
   flex-direction: column;
 }
-
 #post,#textModification{
   resize: none;
   border : 1px solid lightgray

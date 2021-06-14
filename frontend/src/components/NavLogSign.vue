@@ -1,19 +1,18 @@
-
 <template>
-<header id="background">
-  <b-jumbotron>
-    <template #header> Intranet <img alt="logo groupomania" src="../assets/icon-left-font-monochrome-black.png"> </template>
-    <template #lead>
-        Bienvenue sur votre espace d'échange
-    </template>
-    <div>
-    <b-nav class="navigation">
-        <b-nav-item v-b-tooltip.hover.bottom title="Si vous n'avez pas de compte"  active class="m-2"><router-link to="/inscription">Inscription</router-link></b-nav-item>
-        <b-nav-item v-b-tooltip.hover.bottom title="Pour vous connecter" active class="m-2"><router-link to="/">Connexion</router-link></b-nav-item>
-    </b-nav>
-    </div>
-  </b-jumbotron>
-</header>
+    <header id="background">
+        <b-jumbotron>
+            <template #header> Intranet <img alt="logo groupomania" src="../assets/icon-left-font-monochrome-black.png"> </template>
+            <template #lead>
+                Bienvenue sur votre espace d'échange
+            </template>
+            <div>
+            <b-nav class="navigation">
+                <b-nav-item v-b-tooltip.hover.bottom title="Si vous n'avez pas de compte"  active class="m-2"><router-link to="/inscription">Inscription</router-link></b-nav-item>
+                <b-nav-item v-b-tooltip.hover.bottom title="Pour vous connecter" active class="m-2"><router-link to="/">Connexion</router-link></b-nav-item>
+            </b-nav>
+            </div>
+        </b-jumbotron>
+    </header>
 </template>
 <script>
 export default {
