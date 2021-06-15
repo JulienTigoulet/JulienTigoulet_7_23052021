@@ -68,6 +68,7 @@ exports.modifyPost = async(req, res) =>{
         if(post.imageUrl){
             const filename = post.imageUrl.split('/images/')[1];
             fs.unlink(`images/${filename}`, () =>{
+                post.imageUrl = req.body && req.file ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}`:null
             })
         }
         post.imageUrl = req.body && req.file ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}`:null
